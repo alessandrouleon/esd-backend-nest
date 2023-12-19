@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  backend-01:
+    image: backend-01:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        NODE_ENV: production
+        PORT: ${PORT_DOCKER}
+        # DATABASE_URL: ${DATABASE_URL}
+    container_name: backend-01
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/etc/timezone:/etc/timezone:ro'
+    restart: always
+    ports:
+      - ${PORT_DOCKER}:${PORT_DOCKER}
+    env_file:
+      - .env

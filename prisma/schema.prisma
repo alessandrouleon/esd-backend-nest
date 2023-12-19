@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Lines {
+  id          String      @id @default(uuid())
+  code        String      @unique @db.VarChar(24)
+  description String?     @unique @db.VarChar(256)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?
+  deletedAt   DateTime?
+  Employees   Employees[]
+}
+
+model Employees {
+  id           String    @id @default(uuid())
+  name         String
+  registration String    @unique
+  department   String
+  shift        String    @db.VarChar(64)
+  Line         Lines    @relation(fields: [linesId], references: [id])
+  linesId      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime?
+  deletedAt    DateTime?
+}
