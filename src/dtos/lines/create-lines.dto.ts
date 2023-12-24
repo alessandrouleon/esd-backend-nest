@@ -10,5 +10,9 @@ export class CreateLinesDto {
   @Matches(/\S/, { message: LineMessagesHelper.EMPTY_DESCRIPTION })
   description: string;
 
-  createdAt: Date;
+  @IsString()
+  @Matches(/\S/, { message: LineMessagesHelper.EMPTY_STAGE })
+  stage?: string;
+
+  updatedAt?: Date;
 }

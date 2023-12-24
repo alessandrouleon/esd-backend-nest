@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import ILinesRepository, {
   ILinesReturnWithPagination,
+  ISearchLineValue,
 } from './lines.repository.contract';
 import { CreateLinesDto } from 'src/dtos/lines/create-lines.dto';
 import { Lines } from 'src/entities/lines.entity';
 import { PrismaService } from 'src/configs/database/prisma.service';
 import { UpdateLinesDto } from 'src/dtos/lines/update-lines.dto';
-import { Prisma } from '@prisma/client';
 import { ISearchWithColumn, PaginatedDto } from 'src/utils/pagination';
 
 @Injectable()
@@ -14,14 +14,15 @@ export class LinesRepository implements ILinesRepository {
   constructor(private readonly repository: PrismaService) {}
 
   public async create(data: CreateLinesDto): Promise<Lines> {
-    return await this.repository.lines.create({
-      data: { ...data },
-    });
+    return await this.repository.lines.create({ data: { ...data } });
   }
+
   public async update(id: string, data: UpdateLinesDto): Promise<Lines> {
     return await this.repository.lines.update({
       where: { id },
-      data: { ...data },
+      data: {
+        ...data,
+      },
     });
   }
 
@@ -32,13 +33,13 @@ export class LinesRepository implements ILinesRepository {
     });
   }
 
-  public async findById(id: string): Promise<Lines | undefined> {
+  public async findById(id: string): Promise<Lines | null> {
     return await this.repository.lines.findUnique({
-      where: { id },
+      where: { id, deletedAt: null },
     });
   }
 
-  public async findByCode(code: string): Promise<Lines | undefined> {
+  public async findByCode(code: string): Promise<Lines | null> {
     return this.repository.lines.findUnique({
       where: { code },
     });
@@ -52,12 +53,16 @@ export class LinesRepository implements ILinesRepository {
     });
   }
 
-  async findByUnifiedValueSearch(unifiedValue: string): Promise<Lines[]> {
+  public async findByUnifiedValueSearch({
+    unifiedValue,
+  }: ISearchLineValue): Promise<Lines[] | undefined> {
     const lines = await this.repository.lines.findMany({
       where: {
         OR: [
           {
             code: { contains: unifiedValue },
+          },
+          {
             description: { contains: unifiedValue },
           },
         ],
@@ -66,8 +71,8 @@ export class LinesRepository implements ILinesRepository {
     return lines;
   }
 
-  findAll(page: any): Promise<Lines[]> {
-    return this.repository.lines.findMany({
+  public async findAll(page: any): Promise<Lines[]> {
+    return await this.repository.lines.findMany({
       skip: page?.skip,
       take: page?.take,
       orderBy: page?.orderBy,
@@ -78,23 +83,16 @@ export class LinesRepository implements ILinesRepository {
     { skip, take }: PaginatedDto,
     { column, value }: ISearchWithColumn,
   ): Promise<ILinesReturnWithPagination> {
-    const where: Prisma.LinesWhereInput = {
-      [column]: value,
-      deletedAt: null,
-    };
-
     const result = await this.repository.lines.findMany({
-      where,
       take,
       skip,
       orderBy: {
         createdAt: 'desc',
       },
+      where: { [column]: value, deletedAt: null },
     });
 
-    const data = result;
-    const total = result.length;
-
+    const [data, total] = [result, result.length];
     return { lines: data, total };
   }
 

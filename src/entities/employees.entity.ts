@@ -1,15 +1,17 @@
 import { getDateInLocaleTime } from 'src/utils/Date';
 import { v4 as uuid } from 'uuid';
 
-export class Lines {
+export class Employees {
   id: string;
-  code: string;
-  description: string;
-  stage?: string;
+  name: string;
+  registration: string;
+  department: string;
+  shift: string;
+  linesId: string;
   createdAt: Date;
   updatedAt?: Date | null;
   deletedAt?: Date | null;
-  constructor(props: Omit<Lines, 'id' | 'createdAt'>, id?: string) {
+  constructor(props: Omit<Employees, 'id' | 'createdAt'>, id?: string) {
     Object.assign(this, props);
     this.createdAt = getDateInLocaleTime(new Date());
     this.id = id ?? uuid();

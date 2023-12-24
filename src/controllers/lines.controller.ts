@@ -9,23 +9,37 @@ import {
   HttpCode,
   Get,
 } from '@nestjs/common';
-import { LinesService } from '../services/lines/lines.service';
+import { ListsLinesService } from '../services/lines/lists.lines.service';
 import { CreateLinesDto } from '../dtos/lines/create-lines.dto';
 import { UpdateLinesDto } from '../dtos/lines/update-lines.dto';
 import { SearchFilterTable } from 'src/utils/helprs/search-table';
+import { UpdateLinesService } from 'src/services/lines/update.lines.service';
+import { CreateLinesService } from 'src/services/lines/create.lines.service';
+import { DeleteLinesService } from 'src/services/lines/delete.lines.service';
+import { ISearchLineValue } from 'src/repositories/lines/lines.repository.contract';
 
 @Controller('lines')
 export class LinesController {
-  constructor(private readonly linesService: LinesService) {}
+  constructor(
+    private readonly listsLinesService: ListsLinesService,
+    private readonly createLinesService: CreateLinesService,
+    private readonly updateLinesService: UpdateLinesService,
+    private readonly deleteLinesService: DeleteLinesService,
+  ) {}
 
   @Post()
   create(@Body() createLinesDto: CreateLinesDto) {
-    return this.linesService.create(createLinesDto);
+    return this.createLinesService.create(createLinesDto);
+  }
+
+  @Get('search')
+  async findValueSearch(@Query() unifiedValue: ISearchLineValue) {
+    return this.listsLinesService.findByUnifiedValueSearch(unifiedValue);
   }
 
   @Get()
   async findAll(@Query() page: any): Promise<any> {
-    return this.linesService.findAll(page);
+    return this.listsLinesService.findAll(page);
   }
 
   @Post('search/:page?')
@@ -34,20 +48,16 @@ export class LinesController {
     @Param('page') page: number,
     @Body() search: SearchFilterTable,
   ) {
-    return this.linesService.getLines(search, page);
+    return this.listsLinesService.getLines(search, page);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.linesService.findOne(id);
-  // }
   @Patch('/:id')
   update(@Param('id') id: string, @Body() updateLinesDto: UpdateLinesDto) {
-    return this.linesService.update(id, updateLinesDto);
+    return this.updateLinesService.update(id, updateLinesDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.linesService.remove(id);
+    return this.deleteLinesService.remove(id);
   }
 }

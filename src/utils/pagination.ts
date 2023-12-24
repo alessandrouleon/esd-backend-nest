@@ -1,3 +1,14 @@
+export class PaginationOptions {
+  skip: number;
+  take: number;
+  page: number;
+}
+
+export class PaginationOptionsSearch extends PaginationOptions {
+  value: string;
+  column: string;
+}
+
 export class PaginatedDto {
   total?: number;
   page: number;

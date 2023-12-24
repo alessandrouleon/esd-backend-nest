@@ -11,10 +11,27 @@ export const FilterTableMessagesHelper = {
 };
 
 export const LineMessagesHelper = {
-  ID_NOT_EXIST: 'Esta linha não existe para ser alterada',
-  ID_NOT_EXIST_FOR_DELETED: 'Esta linha não existe para ser deletada',
+  ID_NOT_EXIST: 'Id da linha inválido ou não existe',
+  LINE_NOT_EXIST: 'Esta linha não existe',
   EMPTY_CODE: 'Preencha campo código',
   EMPTY_DESCRIPTION: 'Preencha campo descrição',
+  EMPTY_STAGE: 'Preencha campo etapa de processo',
   EXIST_CODE: 'Este código de linha já existe',
   EXIST_DESCRIPTION: 'Esta descrição de linha já existe',
+};
+
+export const EmployeeMessagesHelper = {
+  ID_NOT_EXIST: 'Este funcionário não existe',
+  ID_NOT_EXIST_FOR_UPDATE: 'Este funcionário não existe para ser alterada',
+  ID_NOT_EXIST_FOR_DELETED: 'Este funcionário não existe para ser deletada',
+  EMPTY_NAME: 'Preencha campo nome',
+  EMPTY_REGISTRATION: 'Preencha campo matrícula',
+  EMPTY_DEPARTMENT: 'Preencha campo departamento',
+  EMPTY_SHIFT: 'Preencha campo turno',
+  EMPTY_LINEID: 'Informe o Id da linha',
+  EXIST_REGISTRATION: 'Esta matrícula já está cadastrada.',
+};
+
+export const MessageHelps = {
+  INTERNAL_SERVER: 'Internal server error',
 };

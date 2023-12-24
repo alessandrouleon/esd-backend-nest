@@ -7,14 +7,20 @@ export interface ILinesReturnWithPagination {
   lines: Lines[];
   total: number;
 }
+export class ISearchLineValue {
+  unifiedValue: string;
+}
 
 export default interface ILinesRepository {
   create(data: CreateLinesDto): Promise<Lines>;
   update(id: string, data: UpdateLinesDto): Promise<Lines>;
   delete(id: string, data: UpdateLinesDto): Promise<void>;
-  findById(id: string): Promise<Lines | undefined>;
-  findByCode(code: string): Promise<Lines | undefined>;
+  findById(id: string): Promise<Lines | null>;
+  findByCode(code: string): Promise<Lines | null>;
   findByDescription(description: string): Promise<Lines | undefined>;
+  findByUnifiedValueSearch(
+    unifiedValue: ISearchLineValue,
+  ): Promise<Lines[] | undefined>;
   findAll(page: any): Promise<Lines[]>;
   searchLinesCaseFormatDate(
     parametersToPaginate: PaginatedDto,
