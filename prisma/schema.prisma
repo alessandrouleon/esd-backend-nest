@@ -16,8 +16,8 @@ model Lines {
   code        String      @unique @db.VarChar(24)
   stage       String?     @db.VarChar(24)
   description String?     @unique @db.VarChar(256)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?
+  createdAt   DateTime    @default(dbgenerated("NOW()")) @db.DateTime
+  updatedAt   DateTime?  
   deletedAt   DateTime?
   Employees   Employees[]
 }
@@ -30,7 +30,21 @@ model Employees {
   shift        String    @db.VarChar(64)
   Line         Lines     @relation(fields: [linesId], references: [id])
   linesId      String
-  createdAt    DateTime  @default(now())
+  createdAt    DateTime  @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt    DateTime?
   deletedAt    DateTime?
+  Users        Users[]
+}
+
+model Users {
+  id         String    @id @default(uuid())
+  userName   String    @unique @db.VarChar(64)
+  password   String    @db.VarChar(100)
+  email      String    @unique @db.VarChar(64)
+  permission String    @db.VarChar(64)
+  Employee   Employees @relation(fields: [employeeId], references: [id])
+  employeeId String
+  createdAt  DateTime  @default(dbgenerated("NOW()")) @db.DateTime
+  updatedAt  DateTime?
+  deletedAt  DateTime?
 }

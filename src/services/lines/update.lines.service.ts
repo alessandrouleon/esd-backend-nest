@@ -2,10 +2,12 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UpdateLinesDto } from 'src/dtos/lines/update-lines.dto';
 import ILinesRepository from 'src/repositories/lines/lines.repository.contract';
 import { Lines } from 'src/entities/lines.entity';
+
 import {
   LineMessagesHelper,
   MessageHelps,
 } from 'src/utils/helprs/messages.helps';
+import { getUtcDate } from 'src/utils/date';
 
 @Injectable()
 export class UpdateLinesService {
@@ -29,10 +31,12 @@ export class UpdateLinesService {
         this.validateDescription(data.description, lines.description),
       ]);
 
-      return this.linesRepository.update(id, {
-        updatedAt: new Date(),
+      const response = this.linesRepository.update(id, {
+        updatedAt: getUtcDate(),
         ...data,
       });
+
+      return response;
     } catch (error) {
       this.handleUpdateError(error);
     }

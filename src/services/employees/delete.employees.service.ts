@@ -1,5 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { UpdateEmployeesDto } from 'src/dtos/employees/update-employee.dto';
 import IEmployeesRepository from 'src/repositories/employees/employees.repository.cantract';
+import { getUtcDate } from 'src/utils/date';
 import { EmployeeMessagesHelper } from 'src/utils/helprs/messages.helps';
 
 @Injectable()
@@ -10,6 +12,7 @@ export class DeleteEmployeesService {
   ) {}
 
   public async remove(id: string): Promise<void> {
+    const data = {} as UpdateEmployeesDto;
     const line = await this.employeesRepository.findById(id);
 
     if (!line)
@@ -19,8 +22,8 @@ export class DeleteEmployeesService {
       );
 
     await this.employeesRepository.delete(id, {
-      deletedAt: new Date(),
-      ...line,
+      deletedAt: getUtcDate(),
+      ...data,
     });
   }
 }

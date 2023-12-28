@@ -1,6 +1,5 @@
-import { getDateInLocaleTime } from 'src/utils/Date';
+import { getUtcDate } from 'src/utils/date';
 import { v4 as uuid } from 'uuid';
-
 export class Lines {
   id: string;
   code: string;
@@ -11,7 +10,7 @@ export class Lines {
   deletedAt?: Date | null;
   constructor(props: Omit<Lines, 'id' | 'createdAt'>, id?: string) {
     Object.assign(this, props);
-    this.createdAt = getDateInLocaleTime(new Date());
+    this.createdAt = getUtcDate();
     this.id = id ?? uuid();
   }
 }

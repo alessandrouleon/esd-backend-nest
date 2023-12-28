@@ -16,7 +16,7 @@ export class EmployeesRepository implements IEmployeesRepository {
 
   public async create(data: CreateEmployeeDto): Promise<Employees> {
     return await this.repository.employees.create({
-      data: { ...data },
+      data,
     });
   }
 
@@ -33,7 +33,7 @@ export class EmployeesRepository implements IEmployeesRepository {
   public async delete(id: string, data: UpdateEmployeesDto): Promise<void> {
     await this.repository.employees.update({
       where: { id },
-      data: { ...data },
+      data,
     });
   }
 

@@ -14,7 +14,7 @@ export class LinesRepository implements ILinesRepository {
   constructor(private readonly repository: PrismaService) {}
 
   public async create(data: CreateLinesDto): Promise<Lines> {
-    return await this.repository.lines.create({ data: { ...data } });
+    return await this.repository.lines.create({ data });
   }
 
   public async update(id: string, data: UpdateLinesDto): Promise<Lines> {
@@ -29,7 +29,7 @@ export class LinesRepository implements ILinesRepository {
   public async delete(id: string, data: UpdateLinesDto): Promise<void> {
     await this.repository.lines.update({
       where: { id },
-      data: { ...data },
+      data,
     });
   }
 

@@ -14,5 +14,7 @@ export class CreateLinesDto {
   @Matches(/\S/, { message: LineMessagesHelper.EMPTY_STAGE })
   stage?: string;
 
-  updatedAt?: Date;
+  updatedAt: Date;
+
+  deletedAt: Date;
 }

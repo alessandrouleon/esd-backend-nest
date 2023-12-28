@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UpdateEmployeesDto } from 'src/dtos/employees/update-employee.dto';
 import { Employees } from 'src/entities/employees.entity';
 import IEmployeesRepository from 'src/repositories/employees/employees.repository.cantract';
+import { getUtcDate } from 'src/utils/date';
 import {
   EmployeeMessagesHelper,
   LineMessagesHelper,
@@ -32,7 +33,7 @@ export class UpdateEmployeesService {
       ]);
 
       return this.employeesRepository.update(id, {
-        updatedAt: new Date(),
+        updatedAt: getUtcDate(),
         ...data,
       });
     } catch (error) {

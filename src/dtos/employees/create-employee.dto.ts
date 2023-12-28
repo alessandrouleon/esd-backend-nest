@@ -24,4 +24,5 @@ export class CreateEmployeeDto {
   linesId: string;
 
   updatedAt: Date;
+  deletedAt: Date;
 }

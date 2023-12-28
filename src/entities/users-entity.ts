@@ -1,17 +1,17 @@
 import { getUtcDate } from 'src/utils/date';
 import { v4 as uuid } from 'uuid';
 
-export class Employees {
+export class Users {
   id: string;
-  name: string;
-  registration: string;
-  department: string;
-  shift: string;
-  linesId: string;
+  userName: string;
+  password: string;
+  email: string;
+  permission: string;
+  employeeId: string;
   createdAt: Date;
   updatedAt?: Date | null;
   deletedAt?: Date | null;
-  constructor(props: Omit<Employees, 'id' | 'createdAt'>, id?: string) {
+  constructor(props: Omit<Users, 'id' | 'createdAt'>, id?: string) {
     Object.assign(this, props);
     this.createdAt = getUtcDate();
     this.id = id ?? uuid();
