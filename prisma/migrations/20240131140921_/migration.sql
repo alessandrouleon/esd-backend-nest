@@ -5,7 +5,7 @@ CREATE TABLE `Lines` (
     `stage` VARCHAR(24) NULL,
     `description` VARCHAR(256) NULL,
     `createdAt` DATETIME NOT NULL DEFAULT NOW(),
-    `updatedAt` DATETIME NULL,
+    `updatedAt` DATETIME(3) NULL,
     `deletedAt` DATETIME(3) NULL,
 
     UNIQUE INDEX `Lines_code_key`(`code`),
@@ -21,7 +21,7 @@ CREATE TABLE `Employees` (
     `department` VARCHAR(191) NOT NULL,
     `shift` VARCHAR(64) NOT NULL,
     `linesId` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `createdAt` DATETIME NOT NULL DEFAULT NOW(),
     `updatedAt` DATETIME(3) NULL,
     `deletedAt` DATETIME(3) NULL,
 
@@ -33,11 +33,11 @@ CREATE TABLE `Employees` (
 CREATE TABLE `Users` (
     `id` VARCHAR(191) NOT NULL,
     `userName` VARCHAR(64) NOT NULL,
-    `password` VARCHAR(100) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
     `email` VARCHAR(64) NOT NULL,
     `permission` VARCHAR(64) NOT NULL,
     `employeeId` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `createdAt` DATETIME NOT NULL DEFAULT NOW(),
     `updatedAt` DATETIME(3) NULL,
     `deletedAt` DATETIME(3) NULL,
 

@@ -6,8 +6,7 @@ import {
   EmployeeMessagesHelper,
   UsersMessagesHelper,
 } from 'src/utils/helprs/messages.helps';
-
-//import { format } from 'date-fns-tz';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CreateUsersService {
@@ -17,24 +16,16 @@ export class CreateUsersService {
   ) {}
 
   public async create(data: CreateUsersDto): Promise<Users> {
+    const hashedUserPassword = await bcrypt.hash(
+      data.password,
+      Number(process.env.BCRYPTROUNDS),
+    );
+
     const [existsUserName, existsEmail, existsEmployeeId] = await Promise.all([
       this.usersRepository.findByUserName(data.userName),
       this.usersRepository.findByEmail(data.email),
       this.usersRepository.findByEmployeeId(data.employeeId),
     ]);
-
-    //
-
-    // const today = new Date();
-    // const formattedDate = format(today, 'dd/MM/yyyy');
-    // console.log('data::', formattedDate);
-    //
-
-    //     const today = new Date(); // Wed Sep 16 2020 13:25:16
-
-    //     console.log(`
-    //   Time in Munich: ${format(today, 'yyyy-MM-dd HH:mm:ss')}
-    // `);
 
     if (existsUserName) {
       throw new HttpException(
@@ -56,6 +47,10 @@ export class CreateUsersService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return this.usersRepository.create(data);
+
+    return this.usersRepository.create({
+      ...data,
+      password: hashedUserPassword,
+    });
   }
 }

@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UpdateUsersDto } from 'src/dtos/users/update-users.dto';
 import { Users } from 'src/entities/users-entity';
-
 import IUsersRepository from 'src/repositories/users/users.repository.cantract';
 import { getUtcDate } from 'src/utils/date';
 import {
@@ -9,6 +8,7 @@ import {
   MessageHelps,
   EmployeeMessagesHelper,
 } from 'src/utils/helprs/messages.helps';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UpdateUsersService {
@@ -16,8 +16,13 @@ export class UpdateUsersService {
     @Inject('IUsersRepository')
     private usersRepository: IUsersRepository,
   ) {}
+
   public async update(id: string, data: UpdateUsersDto): Promise<Users> {
     try {
+      const hashedUserPassword = await bcrypt.hash(
+        data.password,
+        Number(process.env.BCRYPTROUNDS),
+      );
       const user = await this.usersRepository.findById(id);
       if (!user)
         throw new HttpException(
@@ -31,8 +36,9 @@ export class UpdateUsersService {
       ]);
 
       return this.usersRepository.update(id, {
-        updatedAt: getUtcDate(),
         ...data,
+        updatedAt: getUtcDate(),
+        password: hashedUserPassword,
       });
     } catch (error) {
       this.handleUpdateError(error);

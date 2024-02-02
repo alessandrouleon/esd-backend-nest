@@ -39,7 +39,7 @@ model Employees {
 model Users {
   id         String    @id @default(uuid())
   userName   String    @unique @db.VarChar(64)
-  password   String    @db.VarChar(100)
+  password   String    
   email      String    @unique @db.VarChar(64)
   permission String    @db.VarChar(64)
   Employee   Employees @relation(fields: [employeeId], references: [id])

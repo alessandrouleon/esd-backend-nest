@@ -24,7 +24,7 @@ export default interface IUsersRepository {
   findByUnifiedValueSearch(
     unifiedValue: ISearchUsersValue,
   ): Promise<Users[] | undefined>;
-  findAll(page: any): Promise<Users[]>;
+  findAll(): Promise<Users[]>;
   searchUsersCaseFormatDate(
     parametersToPaginate: PaginatedDto,
     data: ISearchWithColumn,

@@ -51,23 +51,126 @@ export class UsersRepository implements IUsersRepository {
       where: { email, deletedAt: null },
     });
   }
-  public async findByUnifiedValueSearch(
-    unifiedValue: ISearchUsersValue,
-  ): Promise<Users[]> {
-    throw new Error('Method not implemented.');
+  public async findByUnifiedValueSearch({
+    unifiedValue,
+  }: ISearchUsersValue): Promise<Users[] | undefined> {
+    const user = await this.repository.users.findMany({
+      where: {
+        OR: [
+          {
+            userName: { contains: unifiedValue },
+          },
+          {
+            email: { contains: unifiedValue },
+          },
+          {
+            permission: { contains: unifiedValue },
+          },
+          {
+            Employee: { name: { contains: unifiedValue } },
+          },
+          {
+            Employee: { registration: { contains: unifiedValue } },
+          },
+          {
+            Employee: { department: { contains: unifiedValue } },
+          },
+          {
+            Employee: { shift: { contains: unifiedValue } },
+          },
+        ],
+      },
+      include: {
+        Employee: true,
+      },
+    });
+    return user;
   }
-  public async findAll(page: any): Promise<Users[]> {
-    throw new Error('Method not implemented.');
+  public async findAll(): Promise<Users[]> {
+    return await this.repository.users.findMany({
+      select: {
+        id: true,
+        userName: true,
+        email: true,
+        permission: true,
+        employeeId: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
+        password: true,
+        Employee: {
+          select: {
+            id: true,
+            name: true,
+            registration: true,
+            department: true,
+            shift: true,
+            linesId: true,
+            createdAt: true,
+            updatedAt: true,
+            deletedAt: true,
+          },
+        },
+      },
+    });
   }
+
   public async searchUsersCaseFormatDate(
-    parametersToPaginate: PaginatedDto,
-    data: ISearchWithColumn,
+    { skip, take }: PaginatedDto,
+    { column, value }: ISearchWithColumn,
   ): Promise<IUsersReturnWithPagination> {
-    throw new Error('Method not implemented.');
+    const user = await this.repository.users.findMany({
+      take,
+      skip,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        userName: true,
+        email: true,
+        permission: true,
+        employeeId: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
+        password: true,
+        Employee: {
+          select: {
+            id: true,
+            name: true,
+            registration: true,
+            department: true,
+            shift: true,
+            linesId: true,
+            createdAt: true,
+            updatedAt: true,
+            deletedAt: true,
+          },
+        },
+      },
+      where: { [column]: value, deletedAt: null },
+    });
+    const [data, total] = [user, user.length];
+
+    return { users: data, total };
   }
-  public async findAllUsersWithPagination(
-    parametersToPaginate: PaginatedDto,
-  ): Promise<IUsersReturnWithPagination> {
-    throw new Error('Method not implemented.');
+
+  public async findAllUsersWithPagination({
+    page,
+    take,
+  }: PaginatedDto): Promise<IUsersReturnWithPagination> {
+    const [data, total] = await Promise.all([
+      this.repository.users.findMany({
+        take,
+        skip: (page - 1) * take,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        where: { deletedAt: null },
+      }),
+      this.repository.users.count({ where: { deletedAt: null } }),
+    ]);
+    return { users: data, total };
   }
 }
