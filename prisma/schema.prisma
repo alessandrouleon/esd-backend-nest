@@ -12,7 +12,7 @@ datasource db {
   // provider = "mysql"
   // url      = env("DATABASE_URL")
   provider = "postgresql"
- url      = "postgres://ignite_02_db_0o7n_user:wuVfqJ42EmLhsBh5RjuuwxkWsj4Xr6Cu@dpg-cms50mud3nmc73ep3d4g-a/ignite_02_db_0o7n"
+ url      = env("DATABASE_URL")
    extensions = [hstore(schema: "myHstoreSchema"), pg_trgm, postgis(version: "2.1")]
 }
 
