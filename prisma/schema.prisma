@@ -3,16 +3,12 @@
 
 generator client {
   provider        = "prisma-client-js"
-  // previewFeatures = ["multiSchema"]
-  previewFeatures = ["postgresqlExtensions"]
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
-  // provider = "postgresql"
-  // provider = "mysql"
-  // url      = env("DATABASE_URL")
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Lines {
@@ -20,8 +16,7 @@ model Lines {
   code        String      @unique @db.VarChar(24)
   stage       String?     @db.VarChar(24)
   description String?     @unique @db.VarChar(256)
-  createdAt   DateTime    @default(dbgenerated("NOW()"))
-  // createdAt   DateTime    @default(dbgenerated("NOW()")) @db.DateTime
+  createdAt   DateTime    @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt   DateTime?
   deletedAt   DateTime?
   Employees   Employees[]
@@ -35,8 +30,7 @@ model Employees {
   shift        String    @db.VarChar(64)
   Line         Lines     @relation(fields: [linesId], references: [id])
   linesId      String
-  createdAt    DateTime  @default(dbgenerated("NOW()"))
-  // createdAt    DateTime  @default(dbgenerated("NOW()")) @db.DateTime
+  createdAt    DateTime  @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt    DateTime?
   deletedAt    DateTime?
   Users        Users[]
@@ -50,8 +44,7 @@ model Users {
   permission String    @db.VarChar(64)
   Employee   Employees @relation(fields: [employeeId], references: [id])
   employeeId String
-  createdAt  DateTime  @default(dbgenerated("NOW()"))
-  // createdAt  DateTime  @default(dbgenerated("NOW()")) @db.DateTime
+  createdAt  DateTime  @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt  DateTime?
   deletedAt  DateTime?
 }
