@@ -3,13 +3,17 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  // previewFeatures = ["multiSchema"]
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
+  // provider = "postgresql"
+  // provider = "mysql"
+  // url      = env("DATABASE_URL")
   provider = "postgresql"
-    // provider = "mysql"
   url      = env("DATABASE_URL")
+   extensions = [hstore(schema: "myHstoreSchema"), pg_trgm, postgis(version: "2.1")]
 }
 
 model Lines {
@@ -17,9 +21,9 @@ model Lines {
   code        String      @unique @db.VarChar(24)
   stage       String?     @db.VarChar(24)
   description String?     @unique @db.VarChar(256)
-    createdAt   DateTime    @default(dbgenerated("NOW()"))
+  createdAt   DateTime    @default(dbgenerated("NOW()"))
   // createdAt   DateTime    @default(dbgenerated("NOW()")) @db.DateTime
-  updatedAt   DateTime?  
+  updatedAt   DateTime?
   deletedAt   DateTime?
   Employees   Employees[]
 }
@@ -32,7 +36,7 @@ model Employees {
   shift        String    @db.VarChar(64)
   Line         Lines     @relation(fields: [linesId], references: [id])
   linesId      String
-    createdAt    DateTime  @default(dbgenerated("NOW()")) 
+  createdAt    DateTime  @default(dbgenerated("NOW()"))
   // createdAt    DateTime  @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt    DateTime?
   deletedAt    DateTime?
@@ -42,12 +46,12 @@ model Employees {
 model Users {
   id         String    @id @default(uuid())
   userName   String    @unique @db.VarChar(64)
-  password   String    
+  password   String
   email      String    @unique @db.VarChar(64)
   permission String    @db.VarChar(64)
   Employee   Employees @relation(fields: [employeeId], references: [id])
   employeeId String
-   createdAt  DateTime  @default(dbgenerated("NOW()"))
+  createdAt  DateTime  @default(dbgenerated("NOW()"))
   // createdAt  DateTime  @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt  DateTime?
   deletedAt  DateTime?
