@@ -24,7 +24,7 @@ export class CreateUsersDto {
 
   @IsString()
   @Matches(/\S/, { message: UsersMessagesHelper.EMPTY_PERMISSION })
-  permission: string;
+  rolesId: string;
 
   @IsString()
   @Matches(/\S/, { message: UsersMessagesHelper.EMPTY_EMPLOYEE_ID })

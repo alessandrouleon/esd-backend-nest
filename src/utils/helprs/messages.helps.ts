@@ -48,6 +48,11 @@ export const UsersMessagesHelper = {
     'A senha deve conter letras maiúsculas e minúsculas, números e caracteres especiais',
 };
 
+export const RolesMessagesHelper = {
+  EMPTY_NAME: 'Preencha campo nome',
+  EMPTY_PERMISSION: 'Preencha campo permição',
+};
+
 export const MessageHelps = {
   INTERNAL_SERVER: 'Internal server error',
 };
