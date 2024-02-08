@@ -64,9 +64,6 @@ export class UsersRepository implements IUsersRepository {
             email: { contains: unifiedValue },
           },
           {
-            Roles: { name: { contains: unifiedValue } },
-          },
-          {
             Employee: { name: { contains: unifiedValue } },
           },
           {
@@ -92,7 +89,6 @@ export class UsersRepository implements IUsersRepository {
         id: true,
         userName: true,
         email: true,
-        rolesId: true,
         employeeId: true,
         createdAt: true,
         updatedAt: true,
@@ -106,16 +102,6 @@ export class UsersRepository implements IUsersRepository {
             department: true,
             shift: true,
             linesId: true,
-            createdAt: true,
-            updatedAt: true,
-            deletedAt: true,
-          },
-        },
-        Roles: {
-          select: {
-            id: true,
-            name: true,
-            permissions: true,
             createdAt: true,
             updatedAt: true,
             deletedAt: true,
@@ -139,7 +125,6 @@ export class UsersRepository implements IUsersRepository {
         id: true,
         userName: true,
         email: true,
-        rolesId: true,
         employeeId: true,
         createdAt: true,
         updatedAt: true,
@@ -153,16 +138,6 @@ export class UsersRepository implements IUsersRepository {
             department: true,
             shift: true,
             linesId: true,
-            createdAt: true,
-            updatedAt: true,
-            deletedAt: true,
-          },
-        },
-        Roles: {
-          select: {
-            id: true,
-            name: true,
-            permissions: true,
             createdAt: true,
             updatedAt: true,
             deletedAt: true,

@@ -23,10 +23,6 @@ export class CreateUsersDto {
   email: string;
 
   @IsString()
-  @Matches(/\S/, { message: UsersMessagesHelper.EMPTY_PERMISSION })
-  rolesId: string;
-
-  @IsString()
   @Matches(/\S/, { message: UsersMessagesHelper.EMPTY_EMPLOYEE_ID })
   employeeId: string;
 

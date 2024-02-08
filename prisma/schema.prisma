@@ -35,15 +35,6 @@ model Employees {
   deletedAt    DateTime?
   Users        Users[]
 }
-model Roles {
-  id          String    @id @default(uuid())
-  name        String    @unique @db.VarChar(256)
-  permissions String    @db.Text()
-  createdAt   DateTime  @default(dbgenerated("NOW()")) @db.DateTime
-  updatedAt   DateTime?
-  deletedAt   DateTime?
-  Users       Users[]
-}
 
 model Users {
   id         String    @id @default(uuid())
@@ -52,8 +43,6 @@ model Users {
   email      String    @unique @db.VarChar(64)
   Employee   Employees @relation(fields: [employeeId], references: [id])
   employeeId String
-  Roles      Roles     @relation(fields: [rolesId], references: [id])
-  rolesId    String
   createdAt  DateTime  @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt  DateTime?
   deletedAt  DateTime?
