@@ -7,6 +7,7 @@ export class Users {
   password: string;
   email: string;
   employeeId: string;
+  role: number;
   createdAt: Date;
   updatedAt?: Date | null;
   deletedAt?: Date | null;

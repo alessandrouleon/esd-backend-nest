@@ -1,4 +1,4 @@
-import { IsString, Matches } from 'class-validator';
+import { IsNumber, IsString, Matches } from 'class-validator';
 import { UsersMessagesHelper } from 'src/utils/helprs/messages.helps';
 import { RegExHelper } from 'src/utils/helprs/regex.helprs';
 
@@ -25,6 +25,9 @@ export class CreateUsersDto {
   @IsString()
   @Matches(/\S/, { message: UsersMessagesHelper.EMPTY_EMPLOYEE_ID })
   employeeId: string;
+
+  @IsNumber()
+  role: number;
 
   updatedAt: Date;
 

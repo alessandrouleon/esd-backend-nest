@@ -36,6 +36,7 @@ CREATE TABLE `Users` (
     `password` VARCHAR(191) NOT NULL,
     `email` VARCHAR(64) NOT NULL,
     `employeeId` VARCHAR(191) NOT NULL,
+    `role` INTEGER NOT NULL,
     `createdAt` DATETIME NOT NULL DEFAULT NOW(),
     `updatedAt` DATETIME(3) NULL,
     `deletedAt` DATETIME(3) NULL,

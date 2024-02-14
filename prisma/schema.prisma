@@ -43,6 +43,7 @@ model Users {
   email      String    @unique @db.VarChar(64)
   Employee   Employees @relation(fields: [employeeId], references: [id])
   employeeId String
+  role Int 
   createdAt  DateTime  @default(dbgenerated("NOW()")) @db.DateTime
   updatedAt  DateTime?
   deletedAt  DateTime?
