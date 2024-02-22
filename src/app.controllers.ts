@@ -5,7 +5,6 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
   @Get()
   @UseGuards(AuthGuard('google'))
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
