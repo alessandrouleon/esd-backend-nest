@@ -3,7 +3,7 @@ import { UsersControllers } from 'src/controllers/users.controller';
 import { UsersRepository } from 'src/repositories/users/users.repository';
 import { CreateUsersService } from 'src/services/users/create.users.service';
 import { DeleteUsersService } from 'src/services/users/delete.users.service';
-import { ListsUlsersService } from 'src/services/users/lists.users.service';
+import { ListsUsersService } from 'src/services/users/lists.users.service';
 import { UpdateUsersService } from 'src/services/users/update.users.service';
 
 @Module({
@@ -12,13 +12,13 @@ import { UpdateUsersService } from 'src/services/users/update.users.service';
     CreateUsersService,
     UpdateUsersService,
     DeleteUsersService,
-    ListsUlsersService,
+    ListsUsersService,
   ],
   providers: [
     CreateUsersService,
     UpdateUsersService,
     DeleteUsersService,
-    ListsUlsersService,
+    ListsUsersService,
     {
       provide: 'IUsersRepository',
       useClass: UsersRepository,

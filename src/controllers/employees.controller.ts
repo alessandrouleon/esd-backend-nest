@@ -8,7 +8,9 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateEmployeeDto } from 'src/dtos/employees/create-employee.dto';
 import { UpdateEmployeesDto } from 'src/dtos/employees/update-employee.dto';
 import { ISearchEmployeesValue } from 'src/repositories/employees/employees.repository.cantract';
@@ -27,11 +29,13 @@ export class EmployeesController {
     private readonly listsEmployeesService: ListsEmployeesService,
   ) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createEmployeesDto: CreateEmployeeDto) {
     return this.createEmployeesService.create(createEmployeesDto);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('/:id')
   update(
     @Param('id') id: string,
@@ -40,21 +44,25 @@ export class EmployeesController {
     return this.updateEmployeesService.update(id, updateEmployeesDto);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.deleteEmployeesService.remove(id);
   }
 
+  @UseGuards(AuthGuard)
   @Get('search')
   async findValueSearch(@Query() unifiedValue: ISearchEmployeesValue) {
     return this.listsEmployeesService.findByUnifiedValueSearch(unifiedValue);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() page: any): Promise<any> {
     return this.listsEmployeesService.findAll(page);
   }
 
+  @UseGuards(AuthGuard)
   @Post('search/:page?')
   @HttpCode(200)
   async findBySearch(

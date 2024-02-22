@@ -13,11 +13,15 @@ import {
 } from 'src/utils/pagination';
 
 @Injectable()
-export class ListsUlsersService {
+export class ListsUsersService {
   constructor(
     @Inject('IUsersRepository')
     private readonly usersRepository: UsersRepository,
   ) {}
+
+  public async findByUserAuth(userName: string): Promise<Users | undefined> {
+    return await this.usersRepository.findByUserName(userName);
+  }
 
   public async findByUnifiedValueSearch(unifiedValue: ISearchUsersValue) {
     const user =
